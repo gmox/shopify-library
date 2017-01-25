@@ -6,6 +6,11 @@ abstract class Strategy
 {
     protected $credentials;
 
+    public function __construct(array $credentials = [])
+    {
+        $this->setCredentials($credentials);
+    }
+
     public function setCredentials(array $credentials)
     {
         $this->credentials = $credentials;
