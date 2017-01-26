@@ -13,6 +13,28 @@ class BaseTest extends \TestCase
 {
     use MocksGuzzleResponse;
 
+    /** @var HttpClient::class */
+    protected $client;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
+
+        $this->client->shouldReceive('execute')->andReturnUsing( function() {
+
+            $this->createMockedGuzzleResponse([
+                'resource' => [
+                    'id' => 6,
+                    'title' => 'Testing'
+                ]
+            ]);
+
+            return new Response($this->mockedGuzzleResponse);
+        })->byDefault();
+    }
+
     /**
      * @group resource-tests
      * @group base-tests
@@ -21,9 +43,7 @@ class BaseTest extends \TestCase
      */
     public function it_should_return_index_responses_as_collections()
     {
-        $client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
-
-        $client->shouldReceive('execute')->andReturnUsing( function() {
+        $this->client->shouldReceive('execute')->andReturnUsing( function() {
 
             $this->createMockedGuzzleResponse([
                 [
@@ -39,7 +59,7 @@ class BaseTest extends \TestCase
             return new Response($this->mockedGuzzleResponse);
         });
 
-        $base = new Base($client, 'resource');
+        $base = new Base($this->client, 'resource');
 
         $base->setModel(Model::class);
 
@@ -58,21 +78,7 @@ class BaseTest extends \TestCase
      */
     public function it_should_return_find_responses_as_a_model()
     {
-        $client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
-
-        $client->shouldReceive('execute')->andReturnUsing( function() {
-
-            $this->createMockedGuzzleResponse([
-                'resource' => [
-                    'id' => 6,
-                    'title' => 'Testing'
-                ]
-            ]);
-
-            return new Response($this->mockedGuzzleResponse);
-        });
-
-        $base = new Base($client, 'resource');
+        $base = new Base($this->client, 'resource');
 
         $base->setModel(Model::class);
 
@@ -89,21 +95,7 @@ class BaseTest extends \TestCase
      */
     public function it_should_find_from_a_model()
     {
-        $client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
-
-        $client->shouldReceive('execute')->andReturnUsing( function() {
-
-            $this->createMockedGuzzleResponse([
-                'resource' => [
-                    'id' => 6,
-                    'title' => 'Testing'
-                ]
-            ]);
-
-            return new Response($this->mockedGuzzleResponse);
-        });
-
-        $base = new Base($client, 'resource');
+        $base = new Base($this->client, 'resource');
 
         $base->setModel(Model::class);
 
@@ -125,21 +117,7 @@ class BaseTest extends \TestCase
      */
     public function it_should_find_from_an_array()
     {
-        $client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
-
-        $client->shouldReceive('execute')->andReturnUsing( function() {
-
-            $this->createMockedGuzzleResponse([
-                'resource' => [
-                    'id' => 6,
-                    'title' => 'Testing'
-                ]
-            ]);
-
-            return new Response($this->mockedGuzzleResponse);
-        });
-
-        $base = new Base($client, 'resource');
+        $base = new Base($this->client, 'resource');
 
         $base->setModel(Model::class);
 
@@ -161,21 +139,7 @@ class BaseTest extends \TestCase
      */
     public function it_should_return_create_from_array_responses_as_a_model()
     {
-        $client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
-
-        $client->shouldReceive('execute')->andReturnUsing( function() {
-
-            $this->createMockedGuzzleResponse([
-                'resource' => [
-                    'id' => 6,
-                    'title' => 'Testing'
-                ]
-            ]);
-
-            return new Response($this->mockedGuzzleResponse);
-        });
-
-        $base = new Base($client, 'resource');
+        $base = new Base($this->client, 'resource');
 
         $base->setModel(Model::class);
 
@@ -194,21 +158,7 @@ class BaseTest extends \TestCase
      */
     public function it_should_return_create_from_model_responses_as_a_model()
     {
-        $client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
-
-        $client->shouldReceive('execute')->andReturnUsing( function() {
-
-            $this->createMockedGuzzleResponse([
-                'resource' => [
-                    'id' => 6,
-                    'title' => 'Testing'
-                ]
-            ]);
-
-            return new Response($this->mockedGuzzleResponse);
-        });
-
-        $base = new Base($client, 'resource');
+        $base = new Base($this->client, 'resource');
 
         $base->setModel(Model::class);
 
@@ -229,21 +179,7 @@ class BaseTest extends \TestCase
      */
     public function it_should_return_update_from_array_responses_as_a_model()
     {
-        $client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
-
-        $client->shouldReceive('execute')->andReturnUsing( function() {
-
-            $this->createMockedGuzzleResponse([
-                'resource' => [
-                    'id' => 6,
-                    'title' => 'Testing'
-                ]
-            ]);
-
-            return new Response($this->mockedGuzzleResponse);
-        });
-
-        $base = new Base($client, 'resource');
+        $base = new Base($this->client, 'resource');
 
         $base->setModel(Model::class);
 
@@ -263,21 +199,7 @@ class BaseTest extends \TestCase
      */
     public function it_should_return_update_from_model_responses_as_a_model()
     {
-        $client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
-
-        $client->shouldReceive('execute')->andReturnUsing( function() {
-
-            $this->createMockedGuzzleResponse([
-                'resource' => [
-                    'id' => 6,
-                    'title' => 'Testing'
-                ]
-            ]);
-
-            return new Response($this->mockedGuzzleResponse);
-        });
-
-        $base = new Base($client, 'resource');
+        $base = new Base($this->client, 'resource');
 
         $base->setModel(Model::class);
 

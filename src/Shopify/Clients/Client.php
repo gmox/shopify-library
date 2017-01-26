@@ -152,7 +152,9 @@ class Client implements HttpClient
 
         $errorMessage = $this->parseResponseForErrorMessage($data);
 
-        $this->getExceptionFromResponseCode($response->getStatusCode(), $errorMessage);
+        $exception = $this->getExceptionFromResponseCode($response->getStatusCode(), $errorMessage);
+
+        throw $exception;
     }
 
     protected function parseResponseForErrorMessage($data)

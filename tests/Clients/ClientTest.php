@@ -100,7 +100,6 @@ class ClientTest extends \TestCase
         $requestor = $this->mockHttpRequestor();
 
         $this->client->setHttpRequestor($requestor);
-            $this->client->execute('GET', 'resource');
 
         $this->assertException( function() {
             $this->client->execute('GET', 'resource');
