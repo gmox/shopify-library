@@ -17,12 +17,12 @@ class StrategyTest extends \TestCase
         $strategy = \Mockery::mock(Strategy::class)->shouldDeferMissing();
 
         $strategy->setCredentials([
-            'api_key'    => 'key',
+            'api_key'      => 'key',
             'api_password' => 'password',
         ]);
 
         $this->assertEquals([
-            'api_key'    => 'key',
+            'api_key'      => 'key',
             'api_password' => 'password',
         ], $strategy->getCredentials());
     }

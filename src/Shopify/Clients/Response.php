@@ -18,6 +18,12 @@ class Response
     /** @var array */
     protected $responseData;
 
+    /**
+     * Create a Response object. This performs actions on the GuzzleResponse object turned by the Client, including parsing
+     * and returning the throttle limits.
+     *
+     * @param GuzzleResponse  $shopifyResponse  GuzzleResponse returned by the request execution
+     */
     public function __construct($shopifyResponse)
     {
         $this->setShopifyResponse($shopifyResponse);
@@ -27,36 +33,71 @@ class Response
         $this->setResponseDataFromResponse();
     }
 
+    /**
+     * Set the response from Shopify
+     *
+     * @param GuzzleResponse  $shopifyResponse  GuzzleResponse returned by the request execution
+     */
     public function setShopifyResponse($shopifyResponse)
     {
         $this->shopifyResponse = $shopifyResponse;
     }
 
+    /**
+     * Return the response from Shopify
+     *
+     * @return GuzzleResponse GuzzleResponse returned by the request execution
+     */
     public function getShopifyResponse()
     {
         return $this->shopifyResponse;
     }
 
+    /**
+     * Get the total requests remaining (calculated by max requests - requests made)
+     *
+     * @return integer  The total requests remaining
+     */
     public function getRequestsRemaining()
     {
         return $this->getRequestsMax() - $this->getRequestsMade();
     }
 
+    /**
+     * Get the total requests made
+     *
+     * @return integer  The total requests made
+     */
     public function getRequestsMade()
     {
         return $this->requestsMade;
     }
 
+    /**
+     * Get the maximum requests allowed by Shopify
+     *
+     * @return integer  The maximum requests allowed
+     */
     public function getRequestsMax()
     {
         return $this->requestsMax;
     }
 
+    /**
+     * Get the HTTP response code from the request
+     *
+     * @return string  The HTTP response code
+     */
     public function getResponseCode()
     {
         return $this->shopifyResponse->getStatusCode();
     }
 
+    /**
+     * Get the parsed HTTP response data from the request
+     *
+     * @return array  The decoded response data
+     */
     public function getResponseData()
     {
         return $this->responseData;
@@ -81,6 +122,9 @@ class Response
         $this->requestsMade = (int)$requestsMade;
     }
 
+    /**
+     * Decode the JSON from the response body
+     */
     protected function setResponseDataFromResponse()
     {
         $rawData = (string)$this->shopifyResponse->getBody();

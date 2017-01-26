@@ -8,6 +8,10 @@ use Shopify\Auth\Strategy\Strategy;
 use GuzzleHttp\Client as GuzzleClient;
 use Shopify\Contracts\Clients\HttpClient;
 use Shopify\Auth\Config\StoreConfiguration;
+use Shopify\Clients\Exceptions\ServerErrorException;
+use Shopify\Clients\Exceptions\ResourceNotFoundException;
+use Shopify\Clients\Exceptions\ResourceRejectedException;
+use Shopify\Clients\Exceptions\InvalidCredentialsException;
 
 class Client implements HttpClient
 {
@@ -95,9 +99,15 @@ class Client implements HttpClient
         $request = $this->buildGuzzleRequest($httpMethod, $httpEndpoint);
 
         $response = $this->httpRequestor->send($request,[
-            'json'  => $data,
-            'query' => $queryParameters
+            'json'        => $data,
+            'query'       => $queryParameters,
+            'http_errors' => false // we'll handle the errors on our end
         ]);
+
+        if( $response->getStatusCode() != 200 && $response->getStatusCode() != 201 )
+        {
+            $this->throwExceptionFromInvalidRequest($response);
+        }
 
         return new Response($response);
     }
@@ -134,5 +144,51 @@ class Client implements HttpClient
         return new GuzzleClient([
             'base_uri' => 'https://' . $this->getHostFromStoreName()
         ]);
+    }
+
+    protected function throwExceptionFromInvalidRequest($response)
+    {
+        $data = json_decode($response->getBody(), true);
+
+        $errorMessage = $this->parseResponseForErrorMessage($data);
+
+        $this->getExceptionFromResponseCode($response->getStatusCode(), $errorMessage);
+    }
+
+    protected function parseResponseForErrorMessage($data)
+    {
+        // default to a generic error message
+        $errorMessage = 'An error occured in your request.';
+
+        if( isset($data['errors']) )
+        {
+            $errors = $data['errors'];
+
+            if( is_array($errors) ) {
+                $errorMessage = array_pop($errors);
+            } else {
+                $errorMessage = $errors;
+            }
+        }
+
+        return $errorMessage;
+    }
+
+    protected function getExceptionFromResponseCode($responseCode, $errorMessage = '')
+    {
+        $exception = new \Exception($errorMessage);
+
+        // check if it failed
+        if( $responseCode == 400 ) {
+            $exception = new ResourceRejectedException($errorMessage);
+        } elseif( $responseCode == 403 ) {
+            $exception = new InvalidCredentialsException($errorMessage);
+        } elseif( $responseCode == 404 ) {
+            $exception = new ResourceNotFoundException('The resource you are trying to access does not exist.');
+        } if( $responseCode == 500 ) {
+            $exception = new ServerErrorException('Shopify is experiencing technical issues at the moment. Please try again later.');
+        }
+
+        return $exception;
     }
 }
