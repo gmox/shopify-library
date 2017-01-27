@@ -1,11 +1,18 @@
 {
-    "name": "wsnyc/shopify",
+    "name": "wsnyc/shopify-connector",
     "description": "A Shopify API connector",
     "type": "library",
+    "keywords": [
+        "Shopify",
+        "REST",
+        "Shopify API"
+    ],
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Ryon Hunter",
-            "email": "ryon@websolutionsnyc.com"
+            "email": "ryon@websolutionsnyc.com",
+            "homepage": "http://websolutionsnyc.com/"
         }
     ],
     "require": {
@@ -31,8 +38,7 @@
     "autoload-dev": {
         "classmap": [
             "tests/TestCase.php",
-            "tests/Concerns/",
-            "tests/Fixtures/"
+            "tests/Concerns/"
         ]
     }
 }
