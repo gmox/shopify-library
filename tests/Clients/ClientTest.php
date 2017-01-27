@@ -5,7 +5,6 @@ namespace Tests\Clients;
 use Shopify\Clients\Client;
 use Shopify\Clients\Response;
 use Shopify\Auth\Strategy\Strategy;
-use Shopify\Auth\Strategy\HttpBasic;
 use Tests\Concerns\MocksHttpRequest;
 use GuzzleHttp\Client as GuzzleClient;
 use Tests\Concerns\MocksGuzzleResponse;
@@ -84,7 +83,7 @@ class ClientTest extends \TestCase
 
         $response = $this->client->execute('GET', 'resource');
 
-        $this->assertInstanceOf( Response::class, $response );
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     /**
@@ -101,9 +100,9 @@ class ClientTest extends \TestCase
 
         $this->client->setHttpRequestor($requestor);
 
-        $this->assertException( function() {
+        $this->assertException(function () {
             $this->client->execute('GET', 'resource');
-        }, function($e) {
+        }, function ($e) {
             $this->assertEquals('The resource you are trying to access does not exist.', $e->getMessage());
         });
     }
@@ -125,9 +124,9 @@ class ClientTest extends \TestCase
 
         $this->client->setHttpRequestor($requestor);
 
-        $this->assertException( function() {
+        $this->assertException(function () {
             $this->client->execute('GET', 'resource');
-        }, function($e) {
+        }, function ($e) {
             $this->assertEquals('[API] Invalid Username provided for Basic Auth API access.', $e->getMessage());
         });
     }
@@ -151,9 +150,9 @@ class ClientTest extends \TestCase
 
         $this->client->setHttpRequestor($requestor);
 
-        $this->assertException( function() {
+        $this->assertException(function () {
             $this->client->execute('GET', 'resource');
-        }, function($e) {
+        }, function ($e) {
             $this->assertEquals('Required parameter missing or invalid', $e->getMessage());
         });
     }
@@ -172,9 +171,9 @@ class ClientTest extends \TestCase
 
         $this->client->setHttpRequestor($requestor);
 
-        $this->assertException( function() {
+        $this->assertException(function () {
             $this->client->execute('GET', 'resource');
-        }, function($e) {
+        }, function ($e) {
             $this->assertEquals('Shopify is experiencing technical issues at the moment. Please try again later.', $e->getMessage());
         });
     }

@@ -2,7 +2,7 @@
 
 namespace Shopify\Auth\Strategy;
 
-use GuzzleHttp\Psr7;;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request;
 
 class HttpBasic extends Strategy

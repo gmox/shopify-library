@@ -19,7 +19,7 @@ trait MocksGuzzleResponse
 
     public function createMockedGuzzleResponse($responseDataToUse = [])
     {
-        if( empty($responseDataToUse) ) {
+        if (empty($responseDataToUse)) {
             $responseDataToUse = [
                 'id' => 1,
                 'key' => 'value',

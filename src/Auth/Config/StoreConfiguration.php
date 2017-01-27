@@ -46,8 +46,7 @@ class StoreConfiguration
     public function __get($key)
     {
         // if the key doesn't exist, return null
-        if( !isset($this->configuration[$key]) )
-        {
+        if( !isset($this->configuration[$key]) ) {
             return null;
         }
 

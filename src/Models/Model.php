@@ -35,15 +35,11 @@ class Model
     {
         $return = [];
 
-        foreach( $this->attributes as $key => $value )
-        {
+        foreach( $this->attributes as $key => $value ) {
             // If it's a relation model, call toArray on each relational attribute
-            if( $this->isRelationDefined($key) )
-            {
-                foreach( $value as $k => $relation )
-                {
-                    if( $k !== 'relations' )
-                    {
+            if( $this->isRelationDefined($key) ) {
+                foreach( $value as $k => $relation ) {
+                    if( $k !== 'relations' ) {
                         $return[$key][] = $relation->toArray();
                     }
                 }
@@ -72,8 +68,7 @@ class Model
      */
     public function getKey()
     {
-        if( !isset($this->attributes['id']) )
-        {
+        if( !isset($this->attributes['id']) )  {
             return null;
         }
 
@@ -162,12 +157,10 @@ class Model
         $relationObject = null;
 
         // if an array of an array
-        if( count($relationData) !== count($relationData, COUNT_RECURSIVE) )
-        {
+        if( $this->isMultidimensionalArray($relationData) ) {
             $relationCollection = new Collection();
 
-            foreach( $relationData as $key => $relationValue )
-            {
+            foreach( $relationData as $key => $relationValue ) {
                 $relationCollection[] = new $relationModel($relationValue);
             }
 
@@ -199,13 +192,18 @@ class Model
      */
     protected function fillField($field, $data)
     {
-        foreach( $data as $key => $value )
-        {
-            if( $this->isRelationDefined($key) )
-            {
+        foreach( $data as $key => $value ) {
+            if( $this->isRelationDefined($key) ) {
                 $value = $this->buildRelationFromData($key, $value);
             }
             $this->$field[$key] = $value;
         }
+    }
+
+    protected function isMultidimensionalArray($a)
+    {
+        $rv = array_filter($a, 'is_array');
+
+        return count($rv) === count(array_keys($a));
     }
 }

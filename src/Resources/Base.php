@@ -134,6 +134,8 @@ class Base
 
         $data = $response->getResponseData();
 
+        $data = $data[$this->resourceBase];
+
         foreach( $data as $key => $resource ) {
             $model = $this->model;
 
@@ -152,7 +154,7 @@ class Base
     {
         $key = '';
 
-        if( is_numeric($param) ){
+        if( is_numeric($param) ) {
             $key = $param;
         } elseif( is_a($param, Model::class) ) {
             $key = $param->getKey();

@@ -68,7 +68,7 @@ class ModelTest extends \TestCase
     public function it_should_initialize_relational_models_that_are_defined()
     {
         $data = ['attribute' => 'value', 'relation' => [
-              'attribute' => 'value'
+            'attribute' => 'value'
         ]];
 
         $model = new Model();
@@ -93,8 +93,8 @@ class ModelTest extends \TestCase
     public function it_should_initialize_a_collection_of_relational_models_that_are_defined()
     {
         $data = ['attribute' => 'value', 'relations' => [
-              [ 'attribute' => 'value' ],
-              [ 'attribute' => 'other value' ],
+            ['attribute' => 'value'],
+            ['attribute' => 'other value'],
         ]];
 
         $model = new Model();

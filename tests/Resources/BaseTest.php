@@ -22,7 +22,7 @@ class BaseTest extends \TestCase
 
         $this->client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
 
-        $this->client->shouldReceive('execute')->andReturnUsing( function() {
+        $this->client->shouldReceive('execute')->andReturnUsing(function () {
 
             $this->createMockedGuzzleResponse([
                 'resource' => [
@@ -43,16 +43,18 @@ class BaseTest extends \TestCase
      */
     public function it_should_return_index_responses_as_collections()
     {
-        $this->client->shouldReceive('execute')->andReturnUsing( function() {
+        $this->client->shouldReceive('execute')->andReturnUsing(function () {
 
             $this->createMockedGuzzleResponse([
-                [
-                    'id' => 5,
-                    'title' => 'Test',
-                ],
-                [
-                    'id' => 6,
-                    'title' => 'Testing',
+                'resource' => [
+                    [
+                        'id'    => 5,
+                        'title' => 'Test',
+                    ],
+                    [
+                        'id'    => 6,
+                        'title' => 'Testing',
+                    ]
                 ]
             ]);
 
@@ -100,7 +102,7 @@ class BaseTest extends \TestCase
         $base->setModel(Model::class);
 
         $model = new Model([
-            'id' => 6,
+            'id'    => 6,
             'title' => 'Testing'
         ]);
 
@@ -122,7 +124,7 @@ class BaseTest extends \TestCase
         $base->setModel(Model::class);
 
         $model = [
-            'id' => 6,
+            'id'    => 6,
             'title' => 'Testing'
         ];
 

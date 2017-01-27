@@ -17,6 +17,7 @@ class StoreConfigurationTest extends \TestCase
             'store_name' => 'test-store'
         ]);
     }
+    
     /**
      * @group auth-tests
      * @group auth-config-tests
