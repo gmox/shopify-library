@@ -196,7 +196,7 @@ class Model
             if( $this->isRelationDefined($key) ) {
                 $value = $this->buildRelationFromData($key, $value);
             }
-            $this->$field[$key] = $value;
+            $this->{$field}[$key] = $value;
         }
     }
 
