@@ -55,6 +55,18 @@ class Base
     }
 
     /**
+     * Create a request for the count of a resource.
+     *
+     * @param array  $queryParameters  The query parameters to be used in the request.
+     */
+    public function count(array $queryParameters = [])
+    {
+        $response = $this->client->execute('GET', $this->resourceBase . '/count', $queryParameters);
+
+        return new Model($response->getResponseData());
+    }
+
+    /**
      * Create a resource.
      *
      * @param array  $data  The data to be used in the creation rquest.

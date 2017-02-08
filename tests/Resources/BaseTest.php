@@ -78,6 +78,32 @@ class BaseTest extends \TestCase
      *
      * @test
      */
+    public function it_should_return_count_responses_as_models()
+    {
+        $this->client->shouldReceive('execute')->andReturnUsing(function () {
+
+            $this->createMockedGuzzleResponse([
+                'count' => 11
+            ]);
+
+            return new Response($this->mockedGuzzleResponse);
+        });
+
+        $base = new Base($this->client, 'resource');
+
+        $count = $base->count();
+
+        $this->assertInstanceOf(Model::class, $count);
+
+        $this->assertEquals(11, $count->count);
+    }
+
+    /**
+     * @group resource-tests
+     * @group base-tests
+     *
+     * @test
+     */
     public function it_should_return_find_responses_as_a_model()
     {
         $base = new Base($this->client, 'resource');
