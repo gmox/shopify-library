@@ -6,9 +6,11 @@ class Order extends Model
 {
     /** @var array */
     protected $relations = [
-        'line_items'   => LineItem::class,
-        'fulfillments' => Fulfillment::class,
-        'customer'     => Customer::class,
+        'line_items'       => LineItem::class,
+        'fulfillments'     => Fulfillment::class,
+        'customer'         => Customer::class,
+        'shipping_address' => Address::class,
+        'billing_address'  => Address::class,
     ];
 
     /**
