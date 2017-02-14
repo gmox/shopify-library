@@ -146,7 +146,7 @@ class Base
 
         $data = $response->getResponseData();
 
-        $data = $data[$this->resourceBase];
+        $data = $data[$this->pluralResourceName()];
 
         foreach( $data as $key => $resource ) {
             $model = $this->model;
@@ -178,12 +178,26 @@ class Base
     }
 
     /**
-     * Turn the resource base into a singular word.
+     * Use the short name of this class to determine what should be extracted from the API response.
      *
      * @param string
      */
     protected function singularResourceName()
     {
-        return str_singular($this->resourceBase);
+        $reflect = new \ReflectionClass(static::class);
+
+        return str_singular(strtolower($reflect->getShortName()));
+    }
+
+    /**
+     * Use the short name of this class to determine what should be extracted from the API response.
+     *
+     * @param string
+     */
+    protected function pluralResourceName()
+    {
+        $reflect = new \ReflectionClass(static::class);
+
+        return str_plural(strtolower($reflect->getShortName()));
     }
 }

@@ -25,7 +25,7 @@ class BaseTest extends \TestCase
         $this->client->shouldReceive('execute')->andReturnUsing(function () {
 
             $this->createMockedGuzzleResponse([
-                'resource' => [
+                'base' => [
                     'id' => 6,
                     'title' => 'Testing'
                 ]
@@ -46,7 +46,7 @@ class BaseTest extends \TestCase
         $this->client->shouldReceive('execute')->andReturnUsing(function () {
 
             $this->createMockedGuzzleResponse([
-                'resource' => [
+                'bases' => [
                     [
                         'id'    => 5,
                         'title' => 'Test',
