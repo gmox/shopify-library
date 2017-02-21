@@ -65,6 +65,36 @@ class ModelTest extends \TestCase
      *
      * @test
      */
+    public function it_should_determine_whether_attributes_are_set_via_magic_method()
+    {
+        $data = ['attribute' => 'value'];
+        $model = new Model($data);
+
+        $this->assertTrue(isset($model->attribute));
+        $this->assertFalse(isset($model->fakeAttribute));
+    }
+
+    /**
+     * @group model-tests
+     *
+     * @test
+     */
+    public function it_should_determine_whether_relations_are_set_via_magic_method()
+    {
+        $model = new Model();
+        $model->setRelations([
+            'relation' => Model::class
+        ]);
+
+        $this->assertTrue(isset($model->relation));
+        $this->assertFalse(isset($model->fakeRelation));
+    }
+
+    /**
+     * @group model-tests
+     *
+     * @test
+     */
     public function it_should_initialize_relational_models_that_are_defined()
     {
         $data = ['attribute' => 'value', 'relation' => [

@@ -82,7 +82,7 @@ class Model
      */
     public function __get($key)
     {
-        if( !isset($this->attributes[$key]) ) {
+        if( !isset($this->{$key} ) ) {
             return null;
         }
 
@@ -98,6 +98,16 @@ class Model
     public function __set($key, $value)
     {
         $this->attributes[$key] = $value;
+    }
+
+    /**
+     * Return if an attribute or relation exist on the model
+     *
+     * @param $key  mixed  The key of the value being checked
+     */
+    public function __isset($key)
+    {
+        return isset($this->attributes[$key]) || $this->isRelationDefined($key);
     }
 
     /**
