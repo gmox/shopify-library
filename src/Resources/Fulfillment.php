@@ -10,6 +10,6 @@ class Fulfillment extends Base
 
     public function __construct($client, $orderKey)
     {
-        parent::__construct($client, 'orders/' . $orderKey);
+        parent::__construct($client, 'orders/' . $orderKey . '/fulfillments');
     }
 }
