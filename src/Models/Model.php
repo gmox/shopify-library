@@ -82,7 +82,7 @@ class Model
      */
     public function __get($key)
     {
-        if( !isset($this->{$key} ) ) {
+        if( !isset($this->attributes[$key]) ) {
             return null;
         }
 
