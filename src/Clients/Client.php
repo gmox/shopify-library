@@ -129,7 +129,7 @@ class Client implements HttpClient
 
         $request = $this->buildGuzzleRequest($httpMethod, $httpEndpoint);
 
-        $response = $this->httpRequestor->send($request,[
+        $response = $this->httpRequestor->send($request, [
             'json'        => $data,
             'query'       => $queryParameters,
             'http_errors' => false // we'll handle the errors on our end

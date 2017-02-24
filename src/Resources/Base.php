@@ -4,8 +4,6 @@ namespace Shopify\Resources;
 
 use Shopify\Models\Model;
 use Illuminate\Support\Collection;
-use Shopify\Auth\Strategy\Strategy;
-use Shopify\Auth\Config\StoreConfiguration;
 
 class Base
 {
@@ -46,6 +44,7 @@ class Base
      * Create a request for the index of a resource.
      *
      * @param array  $queryParameters  The query parameters to be used in the request.
+     * @return Collection
      */
     public function index(array $queryParameters = [])
     {
@@ -58,6 +57,7 @@ class Base
      * Create a request for the count of a resource.
      *
      * @param array  $queryParameters  The query parameters to be used in the request.
+     * @return Model
      */
     public function count(array $queryParameters = [])
     {
@@ -69,7 +69,8 @@ class Base
     /**
      * Create a resource.
      *
-     * @param array  $data  The data to be used in the creation rquest.
+     * @param array  $data  The data to be used in the creation request.
+     * @return Model
      */
     public function create($data)
     {
@@ -88,6 +89,7 @@ class Base
      * Find a resource by id.
      *
      * @param mixed  $model  The object to use for finding an entity (key, model instance, array)
+     * @return Model
      */
     public function find($model)
     {
@@ -102,6 +104,7 @@ class Base
      * Update a resource
      *
      * @param mixed  $model  The object to use for updating an entity (key, model instance, array)
+     * @return Model
      */
     public function update($model)
     {
@@ -122,6 +125,7 @@ class Base
      * Turn a response into an instance of a model.
      *
      * @param \Shopify\Clients\Response  $response  The response object to use
+     * @return Model
      */
     protected function toModel($response)
     {
@@ -139,6 +143,7 @@ class Base
      * Turn an array of resources into a Collection of model instances.
      *
      * @param \Shopify\Clients\Response  $response  The response object to use
+     * @return Collection
      */
     protected function toModelCollection($response)
     {
@@ -180,7 +185,7 @@ class Base
     /**
      * Use the short name of this class to determine what should be extracted from the API response.
      *
-     * @param string
+     * @return string
      */
     protected function singularResourceName()
     {
@@ -192,7 +197,7 @@ class Base
     /**
      * Use the short name of this class to determine what should be extracted from the API response.
      *
-     * @param string
+     * @return string
      */
     protected function pluralResourceName()
     {

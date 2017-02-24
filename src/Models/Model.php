@@ -29,7 +29,7 @@ class Model
     /**
      * Turn a model into an array
      *
-     * @param array
+     * @return array
      */
     public function toArray()
     {
@@ -92,8 +92,8 @@ class Model
     /**
      * Set an attribute on the collection
      *
-     * @param $key    mixed  The key of the value being set
-     * @param $value  mixed  The value of the key being set
+     * @param mixed  $key   The key of the value being set
+     * @param mixed  $value The value of the key being set
      */
     public function __set($key, $value)
     {
@@ -103,7 +103,7 @@ class Model
     /**
      * Return if an attribute or relation exist on the model
      *
-     * @param $key  mixed  The key of the value being checked
+     * @param mixed  $key  The key of the value being checked
      */
     public function __isset($key)
     {
@@ -113,8 +113,8 @@ class Model
     /**
      * Set an attribute on the collection
      *
-     * @param $key    mixed  The key of the value being set
-     * @param $value  mixed  The value of the key being set
+     * @param mixed  $key    The key of the value being set
+     * @param mixed $value  The value of the key being set
      */
     public function fill($data)
     {
@@ -126,7 +126,7 @@ class Model
     /**
      * Set the relations of the model
      *
-     * @param $relations  array  The relations being set
+     * @param array  $relation  The relations being set
      */
     public function setRelations($relations)
     {
@@ -136,7 +136,8 @@ class Model
     /**
      * Check whether a relation matching the name exists on the relations array.
      *
-     * @param $relation  string  The relation being checked
+     * @param string  $relation  The relation being checked
+     * @return boolean
      */
     protected function isRelationDefined($relation)
     {
@@ -146,7 +147,7 @@ class Model
     /**
      * Get the model of the relation from the key
      *
-     * @param $relation  string  The relation being checked
+     * @param string  $relation  The relation being checked
      * @return string  The model of the associated relation
      */
     protected function getRelationModelFromKey($relation)
@@ -157,7 +158,8 @@ class Model
     /**
      * Get the model of the relation from the key
      *
-     * @param $relation  string  The relation being checked
+     * @param string  $relationName  The relation being built
+     * @param array   $relationData  The data used to build the relation.
      * @return string  The model of the associated relation
      */
     protected function buildRelationFromData($relationName, $relationData)
@@ -185,7 +187,7 @@ class Model
     /**
      * Set the original data
      *
-     * @param $data  array  The data to set as the original
+     * @param array  $data  The data to set as the original
      */
     protected function setOriginal($data)
     {
@@ -197,8 +199,8 @@ class Model
     /**
      * Fill a specific attribute (attributes, original, etc) with the data
      *
-     * @param $field  string  The data to assign
-     * @param $data   array   The field to set
+     * @param string  $field  The data to assign
+     * @param array   $data   The field to set
      */
     protected function fillField($field, $data)
     {
@@ -210,10 +212,16 @@ class Model
         }
     }
 
-    protected function isMultidimensionalArray($a)
+    /**
+     * Check if an array is multidimensional.
+     *
+     * @param array  $array  The array being checked
+     * @return boolean
+     */
+    protected function isMultidimensionalArray($array)
     {
-        $rv = array_filter($a, 'is_array');
+        $values = array_filter($array, 'is_array');
 
-        return count($rv) === count(array_keys($a));
+        return count($values) === count(array_keys($aray));
     }
 }
