@@ -125,8 +125,6 @@ class Client implements HttpClient
      */
     public function execute( $httpMethod, $httpEndpoint, array $queryParameters = [], array $data = [])
     {
-        $response = [];
-
         $request = $this->buildGuzzleRequest($httpMethod, $httpEndpoint);
 
         $response = $this->httpRequestor->send($request, [
