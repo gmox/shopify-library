@@ -222,6 +222,6 @@ class Model
     {
         $values = array_filter($array, 'is_array');
 
-        return count($values) === count(array_keys($aray));
+        return count($values) === count(array_keys($array));
     }
 }
