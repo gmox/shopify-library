@@ -39,7 +39,7 @@ class Model
             // If it's a relation model, call toArray on each relational attribute
             if( $this->isRelationDefined($key) ) {
                 foreach( $value as $k => $relation ) {
-                    if( $k !== 'relations' ) {
+                    if( $k !== 'relations' && $k !== 'original' ) {
                         $return[$key][] = $relation->toArray();
                     }
                 }

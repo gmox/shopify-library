@@ -97,9 +97,12 @@ class ModelTest extends \TestCase
      */
     public function it_should_initialize_relational_models_that_are_defined()
     {
-        $data = ['attribute' => 'value', 'relation' => [
-            'attribute' => 'value'
-        ]];
+        $data = [
+            'attribute' => 'value',
+            'relation' => [
+                'attribute' => 'value'
+            ]
+        ];
 
         $model = new Model();
         $model->setRelations([
@@ -122,10 +125,13 @@ class ModelTest extends \TestCase
      */
     public function it_should_initialize_a_collection_of_relational_models_that_are_defined()
     {
-        $data = ['attribute' => 'value', 'relations' => [
-            ['attribute' => 'value'],
-            ['attribute' => 'other value'],
-        ]];
+        $data = [
+            'attribute' => 'value',
+                'relations' => [
+                  ['attribute' => 'value'],
+                  ['attribute' => 'other value'],
+            ]
+        ];
 
         $model = new Model();
         $model->setRelations([
@@ -139,5 +145,40 @@ class ModelTest extends \TestCase
         $this->assertEquals([
             'attribute' => 'value'
         ], $model->relations->first()->toArray());
+    }
+
+    /**
+     * @group model-tests
+     *
+     * @test
+     */
+    public function it_should_transform_model_with_relations_to_array()
+    {
+        $data = [
+            'attribute' => 'value',
+            'relations' => [
+                [
+                    'attribute' => 'value'
+                ]
+            ]
+        ];
+
+        $model = new Model();
+        $model->setRelations([
+            'relations' => Model::class
+        ]);
+
+        $model->fill($data);
+
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $model->relations);
+
+        $this->assertEquals([
+            'attribute' => 'value',
+            'relations' => [
+                [
+                    'attribute' => 'value'
+                ]
+            ]
+        ], $model->toArray());
     }
 }
