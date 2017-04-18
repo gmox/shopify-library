@@ -2,6 +2,6 @@
 
 namespace Shopify\Models;
 
-class Fulfillment extends Model
+class Refund extends Model
 {
 }
