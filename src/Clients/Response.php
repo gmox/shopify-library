@@ -6,13 +6,13 @@ use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
 class Response
 {
-    /** @var GuzzleResponse::class */
+    /** @var GuzzleResponse */
     protected $shopifyResponse;
 
-    /** @var integer */
+    /** @var int */
     protected $requestsMax;
 
-    /** @var integer */
+    /** @var int */
     protected $requestsMade;
 
     /** @var array */
@@ -38,7 +38,7 @@ class Response
      *
      * @param GuzzleResponse  $shopifyResponse  GuzzleResponse returned by the request execution
      */
-    public function setShopifyResponse($shopifyResponse)
+    public function setShopifyResponse(GuzzleResponse $shopifyResponse)
     {
         $this->shopifyResponse = $shopifyResponse;
     }
@@ -48,7 +48,7 @@ class Response
      *
      * @return GuzzleResponse GuzzleResponse returned by the request execution
      */
-    public function getShopifyResponse()
+    public function getShopifyResponse() : GuzzleResponse
     {
         return $this->shopifyResponse;
     }
@@ -58,7 +58,7 @@ class Response
      *
      * @return integer  The total requests remaining
      */
-    public function getRequestsRemaining()
+    public function getRequestsRemaining() : int
     {
         return $this->getRequestsMax() - $this->getRequestsMade();
     }
@@ -66,9 +66,9 @@ class Response
     /**
      * Get the total requests made
      *
-     * @return integer  The total requests made
+     * @return int  The total requests made
      */
-    public function getRequestsMade()
+    public function getRequestsMade() : int
     {
         return $this->requestsMade;
     }
@@ -76,9 +76,9 @@ class Response
     /**
      * Get the maximum requests allowed by Shopify
      *
-     * @return integer  The maximum requests allowed
+     * @return int  The maximum requests allowed
      */
-    public function getRequestsMax()
+    public function getRequestsMax() : int
     {
         return $this->requestsMax;
     }
@@ -88,7 +88,7 @@ class Response
      *
      * @return string  The HTTP response code
      */
-    public function getResponseCode()
+    public function getResponseCode() : string
     {
         return $this->shopifyResponse->getStatusCode();
     }
@@ -98,7 +98,7 @@ class Response
      *
      * @return array  The decoded response data
      */
-    public function getResponseData()
+    public function getResponseData() : array
     {
         return $this->responseData;
     }

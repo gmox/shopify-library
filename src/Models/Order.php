@@ -12,24 +12,26 @@ class Order extends Model
         'customer'         => Customer::class,
         'shipping_address' => Address::class,
         'billing_address'  => Address::class,
+        'refunds'          => Refund::class,
+        'transactions'     => Transaction::class,
     ];
 
     /**
      * Determine if the order has been cancelled.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isCancelled()
+    public function isCancelled() : bool
     {
-        return is_null($this->cancelled_at);
+        return !is_null($this->cancelled_at);
     }
 
     /**
      * Determine if the order's payment is still pending.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isPaymentPending()
+    public function isPaymentPending() : bool
     {
         return $this->financial_status == 'pending';
     }
@@ -37,9 +39,9 @@ class Order extends Model
     /**
      * Determine if the order has been completely fulfilled.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isFulfilled()
+    public function isFulfilled() : bool
     {
         return $this->fulfillment_status == 'fulfilled';
     }
@@ -47,9 +49,9 @@ class Order extends Model
     /**
      * Determine if the order has been partially fulfilled.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isPartiallyFulfilled()
+    public function isPartiallyFulfilled() : bool
     {
         return $this->fulfillment_status == 'partial';
     }

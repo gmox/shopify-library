@@ -2,10 +2,11 @@
 
 namespace Tests\Auth\Strategy;
 
-use Shopify\Auth\Strategy\HttpBasic;
+use Tests\TestCase;
 use GuzzleHttp\Psr7\Request;
+use Shopify\Auth\Strategy\HttpBasic;
 
-class HttpBasicTest extends \TestCase
+class HttpBasicTest extends TestCase
 {
     /**
      * @group auth-tests

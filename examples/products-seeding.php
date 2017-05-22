@@ -20,8 +20,7 @@ $client = new Client($strategy, $configuration);
 
 $productResource = new Product($client);
 
-for( $i = 0; $i < 50; $i++ )
-{
+for( $i = 0; $i < 50; $i++ ) {
     $faker = \Faker\Factory::create();
 
     $product = $productResource->create([

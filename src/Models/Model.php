@@ -6,10 +6,10 @@ use Illuminate\Support\Collection;
 
 class Model
 {
-    /** @var Collection::class */
+    /** @var Collection */
     protected $attributes;
 
-    /** @var Collection::class */
+    /** @var Collection */
     protected $original;
 
     /** @var array */
@@ -31,7 +31,7 @@ class Model
      *
      * @return array
      */
-    public function toArray()
+    public function toArray() : array
     {
         $return = [];
 
@@ -56,7 +56,7 @@ class Model
      *
      * @return Collection
      */
-    public function getOriginal()
+    public function getOriginal() : Collection
     {
         return $this->original;
     }
@@ -104,8 +104,9 @@ class Model
      * Return if an attribute or relation exist on the model
      *
      * @param mixed  $key  The key of the value being checked
+     * @return bool
      */
-    public function __isset($key)
+    public function __isset($key) : bool
     {
         return isset($this->attributes[$key]) || $this->isRelationDefined($key);
     }
@@ -137,9 +138,9 @@ class Model
      * Check whether a relation matching the name exists on the relations array.
      *
      * @param string  $relation  The relation being checked
-     * @return boolean
+     * @return bool
      */
-    protected function isRelationDefined($relation)
+    protected function isRelationDefined($relation) : bool
     {
         return isset($this->relations[$relation]);
     }
@@ -150,7 +151,7 @@ class Model
      * @param string  $relation  The relation being checked
      * @return string  The model of the associated relation
      */
-    protected function getRelationModelFromKey($relation)
+    protected function getRelationModelFromKey($relation) : string
     {
         return $this->relations[$relation];
     }
@@ -160,7 +161,7 @@ class Model
      *
      * @param string  $relationName  The relation being built
      * @param array   $relationData  The data used to build the relation.
-     * @return string  The model of the associated relation
+     * @return mixed  A collection or model that was built from data
      */
     protected function buildRelationFromData($relationName, $relationData)
     {
@@ -216,9 +217,9 @@ class Model
      * Check if an array is multidimensional.
      *
      * @param array  $array  The array being checked
-     * @return boolean
+     * @return bool
      */
-    protected function isMultidimensionalArray($array)
+    protected function isMultidimensionalArray($array) : bool
     {
         $values = array_filter($array, 'is_array');
 

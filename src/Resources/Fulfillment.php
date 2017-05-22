@@ -6,10 +6,8 @@ use Shopify\Models\Fulfillment as FulfillmentModel;
 
 class Fulfillment extends Base
 {
-    protected $model = FulfillmentModel::class;
-
     public function __construct($client, $orderKey)
     {
-        parent::__construct($client, 'orders/' . $orderKey . '/fulfillments');
+        parent::__construct($client, 'orders/' . $orderKey . '/fulfillments', FulfillmentModel::class);
     }
 }

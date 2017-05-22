@@ -6,22 +6,20 @@ use Shopify\Models\Refund as RefundModel;
 
 class Refund extends Base
 {
-    protected $model = RefundModel::class;
-
     public function __construct($client, $orderKey)
     {
-        parent::__construct($client, 'orders/' . $orderKey . '/refunds');
+        parent::__construct($client, 'orders/' . $orderKey . '/refunds', RefundModel::class);
     }
 
     /**
      * Calculate the refund using the data
      *
      * @param array  $data  The data to be used in the creation request.
-     * @return Model
+     * @return RefundModel
      */
-    public function calculate($data)
+    public function calculate($data) : RefundModel
     {
-        if( $data instanceof Model ) {
+        if( $data instanceof RefundModel ) {
             $data = $data->toArray();
         }
 

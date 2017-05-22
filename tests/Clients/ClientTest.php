@@ -2,6 +2,7 @@
 
 namespace Tests\Clients;
 
+use Tests\TestCase;
 use Shopify\Clients\Client;
 use Shopify\Clients\Response;
 use Shopify\Auth\Strategy\Strategy;
@@ -10,7 +11,7 @@ use GuzzleHttp\Client as GuzzleClient;
 use Tests\Concerns\MocksGuzzleResponse;
 use Shopify\Auth\Config\StoreConfiguration;
 
-class ClientTest extends \TestCase
+class ClientTest extends TestCase
 {
     use MocksGuzzleResponse,
         MocksHttpRequest;
@@ -94,17 +95,15 @@ class ClientTest extends \TestCase
      */
     public function it_should_throw_an_exception_for_not_found_resources()
     {
+        $this->expectExceptionMessage('The resource you are trying to access does not exist.');
+
         $this->mockedGuzzleResponse->shouldReceive('getStatusCode')->andReturn('404');
 
         $requestor = $this->mockHttpRequestor();
 
         $this->client->setHttpRequestor($requestor);
 
-        $this->assertException(function () {
-            $this->client->execute('GET', 'resource');
-        }, function ($e) {
-            $this->assertEquals('The resource you are trying to access does not exist.', $e->getMessage());
-        });
+        $this->client->execute('GET', 'resource');
     }
 
     /**
@@ -115,6 +114,8 @@ class ClientTest extends \TestCase
      */
     public function it_should_throw_an_exception_for_invalid_api_credentials()
     {
+        $this->expectExceptionMessage('[API] Invalid Username provided for Basic Auth API access.');
+
         $this->mockedGuzzleResponse->shouldReceive('getStatusCode')->andReturn('403');
         $this->mockedGuzzleResponse->shouldReceive('getBody')->andReturn(json_encode([
             'errors' => '[API] Invalid Username provided for Basic Auth API access.'
@@ -124,11 +125,7 @@ class ClientTest extends \TestCase
 
         $this->client->setHttpRequestor($requestor);
 
-        $this->assertException(function () {
-            $this->client->execute('GET', 'resource');
-        }, function ($e) {
-            $this->assertEquals('[API] Invalid Username provided for Basic Auth API access.', $e->getMessage());
-        });
+        $this->client->execute('GET', 'resource');
     }
 
     /**
@@ -139,6 +136,8 @@ class ClientTest extends \TestCase
      */
     public function it_should_throw_an_exception_for_unprocessable_exceptions()
     {
+        $this->expectExceptionMessage('Required parameter missing or invalid');
+
         $this->mockedGuzzleResponse->shouldReceive('getStatusCode')->andReturn('400');
         $this->mockedGuzzleResponse->shouldReceive('getBody')->andReturn(json_encode([
             'errors' => [
@@ -150,11 +149,7 @@ class ClientTest extends \TestCase
 
         $this->client->setHttpRequestor($requestor);
 
-        $this->assertException(function () {
-            $this->client->execute('GET', 'resource');
-        }, function ($e) {
-            $this->assertEquals('Required parameter missing or invalid', $e->getMessage());
-        });
+        $this->client->execute('GET', 'resource');
     }
 
     /**
@@ -165,16 +160,14 @@ class ClientTest extends \TestCase
      */
     public function it_should_throw_an_exception_for_server_errors()
     {
+        $this->expectExceptionMessage('Shopify is experiencing technical issues at the moment. Please try again later.');
+
         $this->mockedGuzzleResponse->shouldReceive('getStatusCode')->andReturn('500');
 
         $requestor = $this->mockHttpRequestor();
 
         $this->client->setHttpRequestor($requestor);
 
-        $this->assertException(function () {
-            $this->client->execute('GET', 'resource');
-        }, function ($e) {
-            $this->assertEquals('Shopify is experiencing technical issues at the moment. Please try again later.', $e->getMessage());
-        });
+        $this->client->execute('GET', 'resource');
     }
 }

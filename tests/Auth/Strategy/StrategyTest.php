@@ -2,9 +2,10 @@
 
 namespace Tests\Auth\Strategy;
 
+use Tests\TestCase;
 use Shopify\Auth\Strategy\Strategy;
 
-class StrategyTest extends \TestCase
+class StrategyTest extends TestCase
 {
     /**
      * @group auth-tests

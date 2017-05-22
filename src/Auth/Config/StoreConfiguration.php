@@ -32,7 +32,7 @@ class StoreConfiguration
      *
      * @return array
      */
-    public function getConfiguration()
+    public function getConfiguration() : array
     {
         return $this->configuration;
     }

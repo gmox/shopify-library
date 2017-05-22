@@ -19,7 +19,7 @@ class HttpBasic extends Strategy
         // get the credentials we'll be using
         $credentials = $this->getCredentials();
 
-        $apiKey = $credentials['api_key'];
+        $apiKey      = $credentials['api_key'];
         $apiPassword = $credentials['api_password'];
 
         // create the basic auth value

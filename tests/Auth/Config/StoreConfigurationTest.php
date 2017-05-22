@@ -2,9 +2,10 @@
 
 namespace Tests\Auth\Config;
 
+use Tests\TestCase;
 use Shopify\Auth\Config\StoreConfiguration;
 
-class StoreConfigurationTest extends \TestCase
+class StoreConfigurationTest extends TestCase
 {
     /** @var StoreConfiguration::class */
     protected $config;
@@ -17,7 +18,7 @@ class StoreConfigurationTest extends \TestCase
             'store_name' => 'test-store'
         ]);
     }
-    
+
     /**
      * @group auth-tests
      * @group auth-config-tests
@@ -55,5 +56,16 @@ class StoreConfigurationTest extends \TestCase
     public function it_should_get_configuration_via_getter()
     {
         $this->assertEquals('test-store', $this->config->store_name);
+    }
+
+    /**
+     * @group auth-tests
+     * @group auth-config-tests
+     *
+     * @test
+     */
+    public function it_should_return_null_for_non_set_value()
+    {
+        $this->assertNull($this->config->fake_value);
     }
 }

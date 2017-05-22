@@ -4,10 +4,11 @@ namespace Shopify\Resources;
 
 use Shopify\Models\Model;
 use Illuminate\Support\Collection;
+use Shopify\Contracts\Clients\HttpClient;
 
 class Base
 {
-    /** @var \Shopify\Contracts\Clients\HttpClient::class */
+    /** @var HttpClient */
     protected $client;
 
     /** @var string */
@@ -20,14 +21,17 @@ class Base
      * Creates a Base object. This represents a RESTful resource on Shopify, and is used to provide a more RESTful interaction
      * with Shopify.
      *
-     * @param \Shopify\Contracts\Clients\HttpClient::class  $client        The client that will be making the requests.
-     * @param string                                        $resourceBase  The resource base that will be used for sending requsts.
+     * @param HttpClient  $client        The client that will be making the requests.
+     * @param string      $resourceBase  The resource base that will be used for sending requsts.
+     * @param string      $model         The model type that the base will use for requests.
      */
-    public function __construct($client, $resourceBase)
+    public function __construct($client, $resourceBase, $model = Model::class)
     {
         $this->client = $client;
 
         $this->resourceBase = $resourceBase;
+
+        $this->model = $model;
     }
 
     /**
@@ -41,12 +45,22 @@ class Base
     }
 
     /**
+     * Get the model to use for turning responses into Model instances.
+     *
+     * @return string
+     */
+    public function getModel() : string
+    {
+        return $this->model;
+    }
+
+    /**
      * Create a request for the index of a resource.
      *
      * @param array  $queryParameters  The query parameters to be used in the request.
      * @return Collection
      */
-    public function index(array $queryParameters = [])
+    public function index(array $queryParameters = []) : Collection
     {
         $response = $this->client->execute('GET', $this->resourceBase, $queryParameters);
 
@@ -59,10 +73,11 @@ class Base
      * @param array  $queryParameters  The query parameters to be used in the request.
      * @return Model
      */
-    public function count(array $queryParameters = [])
+    public function count(array $queryParameters = []) : Model
     {
         $response = $this->client->execute('GET', $this->resourceBase . '/count', $queryParameters);
 
+        // Shopify count responses aren't
         return new Model($response->getResponseData());
     }
 
@@ -72,7 +87,7 @@ class Base
      * @param array  $data  The data to be used in the creation request.
      * @return Model
      */
-    public function create($data)
+    public function create($data) : Model
     {
         if( $data instanceof Model ) {
             $data = $data->toArray();
@@ -91,7 +106,7 @@ class Base
      * @param mixed  $model  The object to use for finding an entity (key, model instance, array)
      * @return Model
      */
-    public function find($model)
+    public function find($model) : Model
     {
         $key = $this->getKeyFromParameter($model);
 
@@ -106,7 +121,7 @@ class Base
      * @param mixed  $model  The object to use for updating an entity (key, model instance, array)
      * @return Model
      */
-    public function update($model)
+    public function update($model) : Model
     {
         $key = $this->getKeyFromParameter($model);
 
@@ -127,7 +142,7 @@ class Base
      * @param \Shopify\Clients\Response  $response  The response object to use
      * @return Model
      */
-    protected function toModel($response)
+    protected function toModel($response) : Model
     {
         $model = $this->model;
 
@@ -145,7 +160,7 @@ class Base
      * @param \Shopify\Clients\Response  $response  The response object to use
      * @return Collection
      */
-    protected function toModelCollection($response)
+    protected function toModelCollection($response) : Collection
     {
         $collection = new Collection();
 
@@ -187,11 +202,13 @@ class Base
      *
      * @return string
      */
-    protected function singularResourceName()
+    protected function singularResourceName() : string
     {
         $reflect = new \ReflectionClass(static::class);
 
-        return str_singular(strtolower($reflect->getShortName()));
+        $resourceName = strtolower($reflect->getShortName());
+
+        return str_singular($resourceName);
     }
 
     /**
@@ -199,10 +216,12 @@ class Base
      *
      * @return string
      */
-    protected function pluralResourceName()
+    protected function pluralResourceName() : string
     {
         $reflect = new \ReflectionClass(static::class);
 
-        return str_plural(strtolower($reflect->getShortName()));
+        $resourceName = strtolower($reflect->getShortName());
+
+        return str_plural($resourceName);
     }
 }

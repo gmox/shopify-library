@@ -25,7 +25,6 @@ $orders = $orderResource->index([
     'fulfillment_status' => null
 ]);
 
-foreach( $orders as $order )
-{
+foreach( $orders as $order ) {
     echo $order->getOrderName() . ' - ' . $order->getTotalPrice() . PHP_EOL;
 }

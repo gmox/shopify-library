@@ -1,16 +1,9 @@
 <?php
 
-class TestCase extends \PHPUnit_Framework_TestCase
+namespace Tests;
+
+use PHPUnit\Framework\TestCase as BaseTestCase;
+
+class TestCase extends BaseTestCase
 {
-    protected function assertException($test, $callback)
-    {
-        try {
-            $test();
-            $this->fail('Exception not thrown');
-        } catch (\Throwable $e) {
-            $callback($e);
-        } catch (\Exception $e) {
-            $callback($e);
-        }
-    }
 }

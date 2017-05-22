@@ -2,9 +2,10 @@
 
 namespace Tests\Models;
 
+use Tests\TestCase;
 use Shopify\Models\Model;
 
-class ModelTest extends \TestCase
+class ModelTest extends TestCase
 {
     /**
      * @group model-tests
@@ -88,6 +89,30 @@ class ModelTest extends \TestCase
 
         $this->assertTrue(isset($model->relation));
         $this->assertFalse(isset($model->fakeRelation));
+    }
+
+    /**
+     * @group model-tests
+     *
+     * @test
+     */
+    public function it_should_return_null_for_ids_that_are_not_set()
+    {
+        $model = new Model();
+
+        $this->assertNull($model->getKey());
+    }
+
+    /**
+     * @group model-tests
+     *
+     * @test
+     */
+    public function it_should_return_null_for_fields_that_are_not_set()
+    {
+        $model = new Model();
+
+        $this->assertNull($model->fake_field);
     }
 
     /**

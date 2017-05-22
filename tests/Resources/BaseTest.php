@@ -2,6 +2,7 @@
 
 namespace Tests\Resources;
 
+use Tests\TestCase;
 use Shopify\Models\Model;
 use Shopify\Resources\Base;
 use Shopify\Clients\Response;
@@ -9,11 +10,11 @@ use Illuminate\Support\Collection;
 use Tests\Concerns\MocksGuzzleResponse;
 use Shopify\Contracts\Clients\HttpClient;
 
-class BaseTest extends \TestCase
+class BaseTest extends TestCase
 {
     use MocksGuzzleResponse;
 
-    /** @var HttpClient::class */
+    /** @var HttpClient */
     protected $client;
 
     public function setUp()
@@ -239,5 +240,20 @@ class BaseTest extends \TestCase
         $resource = $base->update($model);
 
         $this->assertInstanceOf(Model::class, $resource);
+    }
+
+    /**
+     * @group resource-tests
+     * @group base-tests
+     *
+     * @test
+     */
+    public function it_should_return_the_model_set_on_the_resource()
+    {
+        $base = new Base($this->client, 'resource');
+
+        $base->setModel(Model::class);
+
+        $this->assertEquals(Model::class, $base->getModel());
     }
 }

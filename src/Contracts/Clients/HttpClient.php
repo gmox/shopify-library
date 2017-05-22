@@ -2,6 +2,8 @@
 
 namespace Shopify\Contracts\Clients;
 
+use Shopify\Clients\Response;
+
 interface HttpClient
 {
     /**
@@ -11,7 +13,7 @@ interface HttpClient
      * @param string  $httpEndpoint     The endpoint of the request
      * @param array   $queryParameters  The query parameters to be used in the request
      * @param array   $data             The data that will be sent in the request body
-     * @return \Shopify\Clients\Response
+     * @return Response
      */
-    public function execute($httpMethod, $httpEndpoint, array $queryParameters = [], array $data = []);
+    public function execute($httpMethod, $httpEndpoint, array $queryParameters = [], array $data = []) : Response;
 }

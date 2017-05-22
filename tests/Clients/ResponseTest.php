@@ -2,10 +2,11 @@
 
 namespace Tests\Clients;
 
+use Tests\TestCase;
 use Shopify\Clients\Response;
 use Tests\Concerns\MocksGuzzleResponse;
 
-class ResponseTest extends \TestCase
+class ResponseTest extends TestCase
 {
     use MocksGuzzleResponse;
 
