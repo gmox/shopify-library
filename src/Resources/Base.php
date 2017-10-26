@@ -49,7 +49,7 @@ class Base
      *
      * @return string
      */
-    public function getModel() : string
+    public function getModel(): string
     {
         return $this->model;
     }
@@ -60,7 +60,7 @@ class Base
      * @param array  $queryParameters  The query parameters to be used in the request.
      * @return Collection
      */
-    public function index(array $queryParameters = []) : Collection
+    public function index(array $queryParameters = []): Collection
     {
         $response = $this->client->execute('GET', $this->resourceBase, $queryParameters);
 
@@ -73,7 +73,7 @@ class Base
      * @param array  $queryParameters  The query parameters to be used in the request.
      * @return Model
      */
-    public function count(array $queryParameters = []) : Model
+    public function count(array $queryParameters = []): Model
     {
         $response = $this->client->execute('GET', $this->resourceBase . '/count', $queryParameters);
 
@@ -87,7 +87,7 @@ class Base
      * @param array  $data  The data to be used in the creation request.
      * @return Model
      */
-    public function create($data) : Model
+    public function create($data): Model
     {
         if( $data instanceof Model ) {
             $data = $data->toArray();
@@ -106,7 +106,7 @@ class Base
      * @param mixed  $model  The object to use for finding an entity (key, model instance, array)
      * @return Model
      */
-    public function find($model) : Model
+    public function find($model): Model
     {
         $key = $this->getKeyFromParameter($model);
 
@@ -121,7 +121,7 @@ class Base
      * @param mixed  $model  The object to use for updating an entity (key, model instance, array)
      * @return Model
      */
-    public function update($model) : Model
+    public function update($model): Model
     {
         $key = $this->getKeyFromParameter($model);
 
@@ -142,7 +142,7 @@ class Base
      * @param \Shopify\Clients\Response  $response  The response object to use
      * @return Model
      */
-    protected function toModel($response) : Model
+    protected function toModel($response): Model
     {
         $model = $this->model;
 
@@ -160,7 +160,7 @@ class Base
      * @param \Shopify\Clients\Response  $response  The response object to use
      * @return Collection
      */
-    protected function toModelCollection($response) : Collection
+    protected function toModelCollection($response): Collection
     {
         $collection = new Collection();
 
@@ -202,7 +202,7 @@ class Base
      *
      * @return string
      */
-    protected function singularResourceName() : string
+    protected function singularResourceName(): string
     {
         $reflect = new \ReflectionClass(static::class);
 
@@ -216,7 +216,7 @@ class Base
      *
      * @return string
      */
-    protected function pluralResourceName() : string
+    protected function pluralResourceName(): string
     {
         $reflect = new \ReflectionClass(static::class);
 

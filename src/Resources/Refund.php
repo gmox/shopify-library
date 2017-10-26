@@ -17,7 +17,7 @@ class Refund extends Base
      * @param array  $data  The data to be used in the creation request.
      * @return RefundModel
      */
-    public function calculate($data) : RefundModel
+    public function calculate($data): RefundModel
     {
         if( $data instanceof RefundModel ) {
             $data = $data->toArray();

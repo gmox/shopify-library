@@ -48,7 +48,7 @@ class Response
      *
      * @return GuzzleResponse GuzzleResponse returned by the request execution
      */
-    public function getShopifyResponse() : GuzzleResponse
+    public function getShopifyResponse(): GuzzleResponse
     {
         return $this->shopifyResponse;
     }
@@ -58,7 +58,7 @@ class Response
      *
      * @return integer  The total requests remaining
      */
-    public function getRequestsRemaining() : int
+    public function getRequestsRemaining(): int
     {
         return $this->getRequestsMax() - $this->getRequestsMade();
     }
@@ -68,7 +68,7 @@ class Response
      *
      * @return int  The total requests made
      */
-    public function getRequestsMade() : int
+    public function getRequestsMade(): int
     {
         return $this->requestsMade;
     }
@@ -78,7 +78,7 @@ class Response
      *
      * @return int  The maximum requests allowed
      */
-    public function getRequestsMax() : int
+    public function getRequestsMax(): int
     {
         return $this->requestsMax;
     }
@@ -88,7 +88,7 @@ class Response
      *
      * @return string  The HTTP response code
      */
-    public function getResponseCode() : string
+    public function getResponseCode(): string
     {
         return $this->shopifyResponse->getStatusCode();
     }
@@ -98,7 +98,7 @@ class Response
      *
      * @return array  The decoded response data
      */
-    public function getResponseData() : array
+    public function getResponseData(): array
     {
         return $this->responseData;
     }

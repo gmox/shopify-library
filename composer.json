@@ -1,5 +1,5 @@
 {
-    "name": "wsnyc/shopify-connector",
+    "name": "gmox/shopify-library",
     "description": "A Shopify API connector",
     "type": "library",
     "keywords": [
@@ -11,8 +11,8 @@
     "authors": [
         {
             "name": "Ryon Hunter",
-            "email": "ryon@websolutionsnyc.com",
-            "homepage": "http://websolutionsnyc.com/"
+            "email": "ryon.j.s.hunter@gmail.com",
+            "homepage": "https://github.com/gmox"
         }
     ],
     "require": {

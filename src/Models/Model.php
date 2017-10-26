@@ -31,7 +31,7 @@ class Model
      *
      * @return array
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         $return = [];
 
@@ -56,7 +56,7 @@ class Model
      *
      * @return Collection
      */
-    public function getOriginal() : Collection
+    public function getOriginal(): Collection
     {
         return $this->original;
     }
@@ -106,7 +106,7 @@ class Model
      * @param mixed  $key  The key of the value being checked
      * @return bool
      */
-    public function __isset($key) : bool
+    public function __isset($key): bool
     {
         return isset($this->attributes[$key]) || $this->isRelationDefined($key);
     }
@@ -140,7 +140,7 @@ class Model
      * @param string  $relation  The relation being checked
      * @return bool
      */
-    protected function isRelationDefined($relation) : bool
+    protected function isRelationDefined($relation): bool
     {
         return isset($this->relations[$relation]);
     }
@@ -151,7 +151,7 @@ class Model
      * @param string  $relation  The relation being checked
      * @return string  The model of the associated relation
      */
-    protected function getRelationModelFromKey($relation) : string
+    protected function getRelationModelFromKey($relation): string
     {
         return $this->relations[$relation];
     }
@@ -219,7 +219,7 @@ class Model
      * @param array  $array  The array being checked
      * @return bool
      */
-    protected function isMultidimensionalArray($array) : bool
+    protected function isMultidimensionalArray($array): bool
     {
         $values = array_filter($array, 'is_array');
 

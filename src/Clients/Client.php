@@ -3,7 +3,6 @@
 namespace Shopify\Clients;
 
 use GuzzleHttp\Psr7\Request;
-use Shopify\Clients\Response;
 use Shopify\Auth\Strategy\Strategy;
 use GuzzleHttp\Client as GuzzleClient;
 use Shopify\Contracts\Clients\HttpClient;
@@ -18,7 +17,7 @@ class Client implements HttpClient
     /** @var GuzzleClient */
     protected $httpRequestor;
 
-    /** @var array */
+    /** @var StoreConfiguration */
     protected $storeConfiguration;
 
     /** @var Strategy */
@@ -38,7 +37,7 @@ class Client implements HttpClient
         $this->setStoreConfiguration($storeConfiguration);
 
         // create a guzzle instance that will be used as the requestor
-        $this->setHttpRequestor( $this->createGuzzleInstance() );
+        $this->setHttpRequestor($this->createGuzzleInstance());
     }
 
     /**
@@ -56,7 +55,7 @@ class Client implements HttpClient
      *
      * @return StoreConfiguration
      */
-    public function getStoreConfiguration() : StoreConfiguration
+    public function getStoreConfiguration(): StoreConfiguration
     {
         return $this->storeConfiguration;
     }
@@ -96,7 +95,7 @@ class Client implements HttpClient
      *
      * @return Strategy The strategy that will be used in the HTTP request.
      */
-    public function getAuthenticationStrategy() : Strategy
+    public function getAuthenticationStrategy(): Strategy
     {
         return $this->authenticationStrategy;
     }
@@ -106,7 +105,7 @@ class Client implements HttpClient
      *
      * @return string
      */
-    public function getHostFromStoreName() : string
+    public function getHostFromStoreName(): string
     {
         $storeName = $this->getStoreConfiguration()->store_name;
 
@@ -123,7 +122,7 @@ class Client implements HttpClient
      * @return Response  The response of the request
      * @throws \Exception
      */
-    public function execute( $httpMethod, $httpEndpoint, array $queryParameters = [], array $data = []) : Response
+    public function execute( $httpMethod, $httpEndpoint, array $queryParameters = [], array $data = []): Response
     {
         $request = $this->buildGuzzleRequest($httpMethod, $httpEndpoint);
 
@@ -150,7 +149,7 @@ class Client implements HttpClient
      * @param string  $httpEndpoint  The endpoint of the request
      * @return Request  The request that was built
      */
-    protected function buildGuzzleRequest($httpMethod, $httpEndpoint) : Request
+    protected function buildGuzzleRequest($httpMethod, $httpEndpoint): Request
     {
         $request = new Request($httpMethod, $httpEndpoint . '.json', [
             'Accept'       => 'application/json',
@@ -168,7 +167,7 @@ class Client implements HttpClient
      *
      * @return GuzzleClient  The client that will be making the requests.
      */
-    protected function createGuzzleInstance() : GuzzleClient
+    protected function createGuzzleInstance(): GuzzleClient
     {
         return new GuzzleClient([
             'base_uri' => 'https://' . $this->getHostFromStoreName() . '/admin/'
@@ -199,7 +198,7 @@ class Client implements HttpClient
      * @param array  $data  The decoded data from the response.
      * @return string
      */
-    protected function parseResponseForErrorMessage($data) : string
+    protected function parseResponseForErrorMessage($data): string
     {
         // default to a generic error message
         $errorMessage = 'An error occured in your request.';
@@ -226,7 +225,7 @@ class Client implements HttpClient
      * @param string  $errorMessage  The error message we want to pass to the exception.
      * @return \Exception
      */
-    protected function getExceptionFromResponseCode($responseCode, $errorMessage = '') : \Exception
+    protected function getExceptionFromResponseCode($responseCode, $errorMessage = ''): \Exception
     {
         $exception = new \Exception($errorMessage);
 

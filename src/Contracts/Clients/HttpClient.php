@@ -15,5 +15,5 @@ interface HttpClient
      * @param array   $data             The data that will be sent in the request body
      * @return Response
      */
-    public function execute($httpMethod, $httpEndpoint, array $queryParameters = [], array $data = []) : Response;
+    public function execute($httpMethod, $httpEndpoint, array $queryParameters = [], array $data = []): Response;
 }

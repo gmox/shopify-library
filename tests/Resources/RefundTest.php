@@ -5,7 +5,6 @@ namespace Tests\Resources;
 use Tests\TestCase;
 use Shopify\Clients\Response;
 use Shopify\Resources\Refund;
-use Illuminate\Support\Collection;
 use Tests\Concerns\MocksGuzzleResponse;
 use Shopify\Models\Refund as RefundModel;
 use Shopify\Contracts\Clients\HttpClient;

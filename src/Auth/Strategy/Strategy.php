@@ -34,7 +34,7 @@ abstract class Strategy implements RequestDecorator
      *
      * @return array
      */
-    public function getCredentials() : array
+    public function getCredentials(): array
     {
         return $this->credentials;
     }

@@ -21,7 +21,7 @@ class Order extends Model
      *
      * @return bool
      */
-    public function isCancelled() : bool
+    public function isCancelled(): bool
     {
         return !is_null($this->cancelled_at);
     }
@@ -31,7 +31,7 @@ class Order extends Model
      *
      * @return bool
      */
-    public function isPaymentPending() : bool
+    public function isPaymentPending(): bool
     {
         return $this->financial_status == 'pending';
     }
@@ -41,7 +41,7 @@ class Order extends Model
      *
      * @return bool
      */
-    public function isFulfilled() : bool
+    public function isFulfilled(): bool
     {
         return $this->fulfillment_status == 'fulfilled';
     }
@@ -51,7 +51,7 @@ class Order extends Model
      *
      * @return bool
      */
-    public function isPartiallyFulfilled() : bool
+    public function isPartiallyFulfilled(): bool
     {
         return $this->fulfillment_status == 'partial';
     }

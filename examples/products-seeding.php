@@ -8,19 +8,19 @@ use Shopify\Auth\Strategy\HttpBasic;
 use Shopify\Auth\Config\StoreConfiguration;
 
 $strategy = new HttpBasic([
-    'api_key'      => '57b4e927d7d876ded5108098adf7e22c',
-    'api_password' => '7667c0b33a4fa00cc34e7afd4e0d9561'
+    'api_key'      => '589b2c309febf0655f8f04ffee947603',
+    'api_password' => 'ef0a2b3b633c77b9a2769e4758fa809a'
 ]);
 
 $configuration = new StoreConfiguration([
-    'store_name' => 'smartstock-dev'
+    'store_name' => 'sportify-dev'
 ]);
 
 $client = new Client($strategy, $configuration);
 
 $productResource = new Product($client);
 
-for( $i = 0; $i < 50; $i++ ) {
+for( $i = 0; $i < 38; $i++ ) {
     $faker = \Faker\Factory::create();
 
     $product = $productResource->create([
@@ -30,7 +30,7 @@ for( $i = 0; $i < 50; $i++ ) {
         'vendor'       => $faker->company(),
         'images'       => [
             [
-                'src'  => $faker->imageUrl()
+                'src'  => $faker->imageUrl(800, 1200, 'sports')
             ]
         ],
         'variants'     => [
