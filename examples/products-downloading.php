@@ -8,12 +8,12 @@ use Shopify\Auth\Strategy\HttpBasic;
 use Shopify\Auth\Config\StoreConfiguration;
 
 $strategy = new HttpBasic([
-    'api_key'      => '57b4e927d7d876ded5108098adf7e22c',
-    'api_password' => '7667c0b33a4fa00cc34e7afd4e0d9561'
+    'api_key'      => '',
+    'api_password' => ''
 ]);
 
 $configuration = new StoreConfiguration([
-    'store_name' => 'smartstock-dev'
+    'store_name' => ''
 ]);
 
 $client = new Client($strategy, $configuration);

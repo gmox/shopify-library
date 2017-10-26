@@ -8,12 +8,12 @@ use Shopify\Auth\Strategy\HttpBasic;
 use Shopify\Auth\Config\StoreConfiguration;
 
 $strategy = new HttpBasic([
-    'api_key'      => '589b2c309febf0655f8f04ffee947603',
-    'api_password' => 'ef0a2b3b633c77b9a2769e4758fa809a'
+    'api_key'      => '',
+    'api_password' => ''
 ]);
 
 $configuration = new StoreConfiguration([
-    'store_name' => 'sportify-dev'
+    'store_name' => ''
 ]);
 
 $client = new Client($strategy, $configuration);
