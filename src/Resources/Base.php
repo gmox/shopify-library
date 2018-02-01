@@ -2,6 +2,7 @@
 
 namespace Shopify\Resources;
 
+use Shopify\Models\Metafield;
 use Shopify\Models\Model;
 use Illuminate\Support\Collection;
 use Shopify\Contracts\Clients\HttpClient;
@@ -25,13 +26,11 @@ class Base
      * @param string      $resourceBase  The resource base that will be used for sending requsts.
      * @param string      $model         The model type that the base will use for requests.
      */
-    public function __construct($client, $resourceBase, $model = Model::class)
+    public function __construct(HttpClient $client, string $resourceBase, string $model = Model::class)
     {
-        $this->client = $client;
-
+        $this->client       = $client;
         $this->resourceBase = $resourceBase;
-
-        $this->model = $model;
+        $this->model        = $model;
     }
 
     /**
@@ -137,6 +136,21 @@ class Base
     }
 
     /**
+     * Find all metafields of a resource
+     *
+     * @param mixed  $model  The object to use for finding an entity (key, model instance, array)
+     * @return Collection
+     */
+    public function metafields($model): Collection
+    {
+        $key = $this->getKeyFromParameter($model);
+
+        $response = $this->client->execute('GET', $this->resourceBase . '/' . $key . '/metafields');
+
+        return $this->toMetafieldCollection($response);
+    }
+
+    /**
      * Turn a response into an instance of a model.
      *
      * @param \Shopify\Clients\Response  $response  The response object to use
@@ -170,6 +184,29 @@ class Base
 
         foreach( $data as $key => $resource ) {
             $model = $this->model;
+
+            $collection[$key] = new $model($resource);
+        }
+
+        return $collection;
+    }
+
+    /**
+     * Turn an array of metafields into a Collection of Metafield instances.
+     *
+     * @param \Shopify\Clients\Response  $response  The response object to use
+     * @return Collection
+     */
+    protected function toMetafieldCollection($response): Collection
+    {
+        $collection = new Collection();
+
+        $data = $response->getResponseData();
+
+        $data = $data['metafields'];
+
+        foreach( $data as $key => $resource ) {
+            $model = new Metafield();
 
             $collection[$key] = new $model($resource);
         }

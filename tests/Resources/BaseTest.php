@@ -248,6 +248,51 @@ class BaseTest extends TestCase
      *
      * @test
      */
+    public function it_should_return_metafields_of_models()
+    {
+        $this->client = \Mockery::mock(HttpClient::class)->shouldDeferMissing();
+
+        $this->client->shouldReceive('execute')->andReturnUsing(function () {
+            $this->createMockedGuzzleResponse([
+                'metafields' => [
+                    [
+                        'id' => 6,
+                        'namespace' => 'test',
+                        'key'       => 'foo',
+                        'value'     => 'bar',
+                    ],
+                    [
+                        'id' => 7,
+                        'namespace' => 'test',
+                        'key'       => 'foo',
+                        'value'     => 'baz',
+                    ],
+                ],
+            ]);
+
+            return new Response($this->mockedGuzzleResponse);
+        })->byDefault();
+
+        $base = new Base($this->client, 'resource');
+
+        $base->setModel(Model::class);
+
+        $model = new Model([
+            'id'    => 6,
+            'title' => 'Testing'
+        ]);
+
+        $metafields = $base->metafields($model);
+
+        $this->assertCount(2, $metafields);
+    }
+
+    /**
+     * @group resource-tests
+     * @group base-tests
+     *
+     * @test
+     */
     public function it_should_return_the_model_set_on_the_resource()
     {
         $base = new Base($this->client, 'resource');
