@@ -122,18 +122,23 @@ class Client implements HttpClient
      * @return Response  The response of the request
      * @throws \Exception
      */
-    public function execute( $httpMethod, $httpEndpoint, array $queryParameters = [], array $data = []): Response
+    public function execute($httpMethod, $httpEndpoint, array $queryParameters = [], array $data = []): Response
     {
         $request = $this->buildGuzzleRequest($httpMethod, $httpEndpoint);
 
-        $response = $this->httpRequestor->send($request, [
-            'json'        => $data,
+        $requestOptions = [
             'query'       => $queryParameters,
             'http_errors' => false // we'll handle the errors on our end
-        ]);
+        ];
 
-        if( $response->getStatusCode() != 200 && $response->getStatusCode() != 201 )
-        {
+        // don't send a body if we're making a GET or HEAD request.
+        if ($data || !in_array($httpMethod, ['GET', 'HEAD'])) {
+            $requestOptions['json'] = $data;
+        }
+
+        $response = $this->httpRequestor->send($request, $requestOptions);
+
+        if ($response->getStatusCode() != 200 && $response->getStatusCode() != 201) {
             $this->throwExceptionFromInvalidRequest($response);
         }
 
@@ -153,7 +158,7 @@ class Client implements HttpClient
     {
         $request = new Request($httpMethod, $httpEndpoint . '.json', [
             'Accept'       => 'application/json',
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
         ]);
 
         // decorate the request with the proper authentication strategy
@@ -170,7 +175,7 @@ class Client implements HttpClient
     protected function createGuzzleInstance(): GuzzleClient
     {
         return new GuzzleClient([
-            'base_uri' => 'https://' . $this->getHostFromStoreName() . '/admin/'
+            'base_uri' => 'https://' . $this->getHostFromStoreName() . '/admin/',
         ]);
     }
 
@@ -178,7 +183,7 @@ class Client implements HttpClient
      * In the event of a response indicating an invalid request (or server error), this will decode the response body to
      * get the error message, find the appropriate exception to throw based on the response code, and then throw that exception.
      *
-     * @param \GuzzleHttpPsr7\Response  $response  The response from the server.
+     * @param \GuzzleHttp\Psr7\Response  $response  The response from the server.
      * @throws \Exception
      */
     protected function throwExceptionFromInvalidRequest($response)
@@ -201,13 +206,12 @@ class Client implements HttpClient
     protected function parseResponseForErrorMessage($data): string
     {
         // default to a generic error message
-        $errorMessage = 'An error occured in your request.';
+        $errorMessage = 'An error occurred in your request.';
 
-        if( isset($data['errors']) )
-        {
+        if (isset($data['errors'])) {
             $errors = $data['errors'];
 
-            if( is_array($errors) ) {
+            if (is_array($errors)) {
                 $errorMessage = array_pop($errors);
             } else {
                 $errorMessage = $errors;
@@ -230,13 +234,13 @@ class Client implements HttpClient
         $exception = new \Exception($errorMessage);
 
         // check if it failed
-        if( $responseCode == 400 ) {
+        if ($responseCode == 400) {
             $exception = new ResourceRejectedException($errorMessage);
-        } elseif( $responseCode == 403 ) {
+        } elseif ($responseCode == 403) {
             $exception = new InvalidCredentialsException($errorMessage);
-        } elseif( $responseCode == 404 ) {
+        } elseif ($responseCode == 404) {
             $exception = new ResourceNotFoundException('The resource you are trying to access does not exist.');
-        } if( $responseCode == 500 ) {
+        } if ($responseCode == 500) {
             $exception = new ServerErrorException('Shopify is experiencing technical issues at the moment. Please try again later.');
         }
 

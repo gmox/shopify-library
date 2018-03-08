@@ -27,5 +27,5 @@ $orders = $orderResource->index([
 ]);
 
 foreach( $orders as $order ) {
-    echo $order->getOrderName() . ' - ' . $order->getTotalPrice() . PHP_EOL;
+    echo $order->name . ' - ' . $order->total_price . PHP_EOL;
 }
