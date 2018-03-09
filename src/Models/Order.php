@@ -33,7 +33,7 @@ class Order extends Model
      */
     public function isPaymentPending(): bool
     {
-        return $this->financial_status == 'pending';
+        return $this->financial_status === 'pending';
     }
 
     /**
@@ -43,7 +43,7 @@ class Order extends Model
      */
     public function isFulfilled(): bool
     {
-        return $this->fulfillment_status == 'fulfilled';
+        return $this->fulfillment_status === 'fulfilled';
     }
 
     /**
@@ -53,6 +53,6 @@ class Order extends Model
      */
     public function isPartiallyFulfilled(): bool
     {
-        return $this->fulfillment_status == 'partial';
+        return $this->fulfillment_status === 'partial';
     }
 }

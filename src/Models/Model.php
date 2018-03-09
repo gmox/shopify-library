@@ -18,9 +18,9 @@ class Model
     /**
      * Creates a Model object. Data passed in will be set to the attributes, and the original will be set as well.
      *
-     * @param GuzzleResponse  $shopifyResponse  GuzzleResponse returned by the request execution
+     * @param array  $attributes  Attributes of the model.
      */
-    public function __construct($attributes = [])
+    public function __construct(array $attributes = [])
     {
         $this->fill($attributes);
         $this->setOriginal($attributes);
@@ -35,11 +35,11 @@ class Model
     {
         $return = [];
 
-        foreach( $this->attributes as $key => $value ) {
+        foreach ($this->attributes as $key => $value) {
             // If it's a relation model, call toArray on each relational attribute
-            if( $this->isRelationDefined($key) ) {
-                foreach( $value as $k => $relation ) {
-                    if( $k !== 'relations' && $k !== 'original' ) {
+            if ($this->isRelationDefined($key)) {
+                foreach ($value as $k => $relation) {
+                    if ($k !== 'relations' && $k !== 'original') {
                         $return[$key][] = $relation->toArray();
                     }
                 }
@@ -68,7 +68,7 @@ class Model
      */
     public function getKey()
     {
-        if( !isset($this->attributes['id']) )  {
+        if (!isset($this->attributes['id'])) {
             return null;
         }
 
@@ -78,11 +78,12 @@ class Model
     /**
      * Get an attribute from the collection
      *
+     * @param string  $key  Key of the attributes to get
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
-        if( !isset($this->attributes[$key]) ) {
+        if (!isset($this->attributes[$key])) {
             return null;
         }
 
@@ -92,10 +93,10 @@ class Model
     /**
      * Set an attribute on the collection
      *
-     * @param mixed  $key   The key of the value being set
-     * @param mixed  $value The value of the key being set
+     * @param string  $key    The key of the value being set
+     * @param mixed   $value  The value of the key being set
      */
-    public function __set($key, $value)
+    public function __set(string $key, $value)
     {
         $this->attributes[$key] = $value;
     }
@@ -103,10 +104,10 @@ class Model
     /**
      * Return if an attribute or relation exist on the model
      *
-     * @param mixed  $key  The key of the value being checked
+     * @param string  $key  The key of the value being checked
      * @return bool
      */
-    public function __isset($key): bool
+    public function __isset(string $key): bool
     {
         return isset($this->attributes[$key]) || $this->isRelationDefined($key);
     }
@@ -114,10 +115,9 @@ class Model
     /**
      * Set an attribute on the collection
      *
-     * @param mixed  $key    The key of the value being set
-     * @param mixed $value  The value of the key being set
+     * @param array  $data  Data to fill the array with
      */
-    public function fill($data)
+    public function fill(array $data)
     {
         $this->attributes = new Collection();
 
@@ -127,9 +127,9 @@ class Model
     /**
      * Set the relations of the model
      *
-     * @param array  $relation  The relations being set
+     * @param array  $relations  The relations being set
      */
-    public function setRelations($relations)
+    public function setRelations(array $relations)
     {
         $this->relations = $relations;
     }
@@ -140,7 +140,7 @@ class Model
      * @param string  $relation  The relation being checked
      * @return bool
      */
-    protected function isRelationDefined($relation): bool
+    protected function isRelationDefined(string $relation): bool
     {
         return isset($this->relations[$relation]);
     }
@@ -148,10 +148,10 @@ class Model
     /**
      * Get the model of the relation from the key
      *
-     * @param string  $relation  The relation being checked
+     * @param string   $relation  The relation being checked
      * @return string  The model of the associated relation
      */
-    protected function getRelationModelFromKey($relation): string
+    protected function getRelationModelFromKey(string $relation): string
     {
         return $this->relations[$relation];
     }
@@ -161,19 +161,19 @@ class Model
      *
      * @param string  $relationName  The relation being built
      * @param array   $relationData  The data used to build the relation.
-     * @return mixed  A collection or model that was built from data
+     * @return mixed   A collection or model that was built from data
      */
-    protected function buildRelationFromData($relationName, $relationData)
+    protected function buildRelationFromData(string $relationName, array $relationData)
     {
         $relationModel = $this->getRelationModelFromKey($relationName);
 
         $relationObject = null;
 
         // if an array of an array
-        if( $this->isMultidimensionalArray($relationData) ) {
+        if ($this->isMultidimensionalArray($relationData)) {
             $relationCollection = new Collection();
 
-            foreach( $relationData as $key => $relationValue ) {
+            foreach ($relationData as $key => $relationValue) {
                 $relationCollection[] = new $relationModel($relationValue);
             }
 
@@ -190,7 +190,7 @@ class Model
      *
      * @param array  $data  The data to set as the original
      */
-    protected function setOriginal($data)
+    protected function setOriginal(array $data)
     {
         $this->original = new Collection();
 
@@ -200,13 +200,13 @@ class Model
     /**
      * Fill a specific attribute (attributes, original, etc) with the data
      *
-     * @param string  $field  The data to assign
-     * @param array   $data   The field to set
+     * @param string  $field  The field to set
+     * @param array   $data   The data to fill
      */
-    protected function fillField($field, $data)
+    protected function fillField(string $field, array $data)
     {
-        foreach( $data as $key => $value ) {
-            if( $this->isRelationDefined($key) ) {
+        foreach ($data as $key => $value) {
+            if ($this->isRelationDefined($key)) {
                 $value = $this->buildRelationFromData($key, $value);
             }
             $this->{$field}[$key] = $value;
@@ -219,7 +219,7 @@ class Model
      * @param array  $array  The array being checked
      * @return bool
      */
-    protected function isMultidimensionalArray($array): bool
+    protected function isMultidimensionalArray(array $array): bool
     {
         $values = array_filter($array, 'is_array');
 

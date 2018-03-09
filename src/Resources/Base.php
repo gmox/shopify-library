@@ -2,6 +2,7 @@
 
 namespace Shopify\Resources;
 
+use Shopify\Clients\Response;
 use Shopify\Models\Metafield;
 use Shopify\Models\Model;
 use Illuminate\Support\Collection;
@@ -28,9 +29,9 @@ class Base
      */
     public function __construct(HttpClient $client, string $resourceBase, string $model = Model::class)
     {
-        $this->client       = $client;
+        $this->client = $client;
         $this->resourceBase = $resourceBase;
-        $this->model        = $model;
+        $this->model = $model;
     }
 
     /**
@@ -38,7 +39,7 @@ class Base
      *
      * @param string  $model  The model that will be set.
      */
-    public function setModel($model)
+    public function setModel(string $model)
     {
         $this->model = $model;
     }
@@ -83,12 +84,12 @@ class Base
     /**
      * Create a resource.
      *
-     * @param array  $data  The data to be used in the creation request.
+     * @param mixed  $data  The data to be used in the creation request.
      * @return Model
      */
     public function create($data): Model
     {
-        if( $data instanceof Model ) {
+        if ($data instanceof Model) {
             $data = $data->toArray();
         }
 
@@ -124,7 +125,7 @@ class Base
     {
         $key = $this->getKeyFromParameter($model);
 
-        if( $model instanceof Model ) {
+        if ($model instanceof Model) {
             $model = $model->toArray();
         }
 
@@ -153,10 +154,10 @@ class Base
     /**
      * Turn a response into an instance of a model.
      *
-     * @param \Shopify\Clients\Response  $response  The response object to use
+     * @param Response  $response  The response object to use
      * @return Model
      */
-    protected function toModel($response): Model
+    protected function toModel(Response $response): Model
     {
         $model = $this->model;
 
@@ -171,10 +172,10 @@ class Base
     /**
      * Turn an array of resources into a Collection of model instances.
      *
-     * @param \Shopify\Clients\Response  $response  The response object to use
+     * @param Response  $response  The response object to use
      * @return Collection
      */
-    protected function toModelCollection($response): Collection
+    protected function toModelCollection(Response $response): Collection
     {
         $collection = new Collection();
 
@@ -182,7 +183,7 @@ class Base
 
         $data = $data[$this->pluralResourceName()];
 
-        foreach( $data as $key => $resource ) {
+        foreach ($data as $key => $resource) {
             $model = $this->model;
 
             $collection[$key] = new $model($resource);
@@ -194,7 +195,7 @@ class Base
     /**
      * Turn an array of metafields into a Collection of Metafield instances.
      *
-     * @param \Shopify\Clients\Response  $response  The response object to use
+     * @param Response  $response  The response object to use
      * @return Collection
      */
     protected function toMetafieldCollection($response): Collection
@@ -205,7 +206,7 @@ class Base
 
         $data = $data['metafields'];
 
-        foreach( $data as $key => $resource ) {
+        foreach ($data as $key => $resource) {
             $model = new Metafield();
 
             $collection[$key] = new $model($resource);
@@ -218,16 +219,17 @@ class Base
      * Get the key of an external resource from a model, array or integer passed in.
      *
      * @param mixed  $param  The parameter to extract the external key from
+     * @return string
      */
-    protected function getKeyFromParameter($param)
+    protected function getKeyFromParameter($param): string
     {
         $key = '';
 
-        if( is_numeric($param) ) {
+        if (is_numeric($param)) {
             $key = $param;
-        } elseif( is_a($param, Model::class) ) {
+        } elseif (is_a($param, Model::class)) {
             $key = $param->getKey();
-        } elseif( is_array($param) ) {
+        } elseif (is_array($param)) {
             $key = $param['id'];
         }
 

@@ -12,7 +12,7 @@ class HttpBasic extends Strategy
      * that has 1) an indicator that it is a basic authorization; and 2) a base 64 encoded value of the username-password.
      * For Shopify, the username is the generated API Key and the password is the API Password.
      *
-     * @param Request  $request  The request that we are decorating
+     * @inheritdoc
      */
     public function decorate(Request &$request)
     {

@@ -2,6 +2,7 @@
 
 namespace Tests\Models;
 
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 use Shopify\Models\Model;
 
@@ -195,7 +196,7 @@ class ModelTest extends TestCase
 
         $model->fill($data);
 
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $model->relations);
+        $this->assertInstanceOf(Collection::class, $model->relations);
 
         $this->assertEquals([
             'attribute' => 'value',

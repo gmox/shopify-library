@@ -23,7 +23,8 @@ class ClientTest extends TestCase
         parent::setup();
 
         $strategy = \Mockery::mock(Strategy::class);
-        $strategy->shouldReceive('decorate')->andReturn();
+        $strategy->shouldReceive('decorate')
+            ->andReturn();
 
         // mock credentials
         $this->client = new Client($strategy, new StoreConfiguration(['store_name' => 'test']));

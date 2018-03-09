@@ -115,14 +115,9 @@ class Client implements HttpClient
     /**
      * Executes a request to an endpoint using the supplied parameters.
      *
-     * @param string  $httpMethod       The HTTP Method of the request
-     * @param string  $httpEndpoint     The resource endpoint of the request
-     * @param array   $queryParameters  The query parameters to be passed in the request
-     * @param array   $data             The data that will be sent in the request body as JSON data.
-     * @return Response  The response of the request
-     * @throws \Exception
+     * @inheritdoc
      */
-    public function execute($httpMethod, $httpEndpoint, array $queryParameters = [], array $data = []): Response
+    public function execute(string $httpMethod, string $httpEndpoint, array $queryParameters = [], array $data = []): Response
     {
         $request = $this->buildGuzzleRequest($httpMethod, $httpEndpoint);
 

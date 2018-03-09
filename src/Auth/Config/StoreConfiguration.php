@@ -22,7 +22,7 @@ class StoreConfiguration
      *
      * @param array  $configuration  An array of data that will be used as the configuration
      */
-    public function setConfiguration($configuration)
+    public function setConfiguration(array $configuration)
     {
         $this->configuration = $configuration;
     }
@@ -46,7 +46,7 @@ class StoreConfiguration
     public function __get($key)
     {
         // if the key doesn't exist, return null
-        if( !isset($this->configuration[$key]) ) {
+        if (!isset($this->configuration[$key])) {
             return null;
         }
 
